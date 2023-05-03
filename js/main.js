@@ -37,18 +37,32 @@ async function setup () {
 async function draw () {
   // we first use the detector AI function to predict our "hands" based on the video frame
   const poses = await detector.estimateHands(video)
-  //console.log(poses)
+  // console.log(poses)
   if (poses.length > 0) { // if the AI detects poses...
     const left = poses[1]
     const right = poses[0]
-    console.log(left.keypoints.name)
-    if (left.y >= 0 && left.y <= 480) {
-      // const vol = nn.map(left.y, 0, 480, -100, 5)
-      // osc.volume.value = vol
-    } else {
-      osc.volume.value = -100
+    // Check if left and right hand present
+    if (left && right) {
+      // Check if index finger, wrist, and thumb are detected
+      if (right.keypoints[0] && right.keypoints[4] && right.keypoints[7] && left.keypoints[0] && left.keypoints[4] && left.keypoints[7]) {
+        // Check the x distance between right and left index fingers is less than 10
+        if (Math.abs(right.keypoints[7].x - left.keypoints[7].x) <= 10) {
+          // console.log('x clear')
+          // Check the y distance between right and left index fingers is less than 10
+          if (Math.abs(right.keypoints[7].y - left.keypoints[7].y) <= 10) {
+            // console.log('y clear')
+            if (Math.abs(right.keypoints3D[7].z - left.keypoints3D[7].z) <= 0.8) {
+              osc.frequency.value = 440
+              osc.volume.value = 90
+              console.log('Dhyana Mudra')
+            }
+          }
+        }
+        osc.frequency.value = 30
+      } else {
+        osc.volume.value = -100
+      }
     }
-    // const freq = nn.map(right.x, 0, 640, 440, 880)
     // osc.frequency.value = freq
   } else {
     // if we don't see poses
