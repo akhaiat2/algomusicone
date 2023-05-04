@@ -47,28 +47,63 @@ async function draw () {
       if (right.keypoints[0] && right.keypoints[4] && right.keypoints[7] && left.keypoints[0] && left.keypoints[4] && left.keypoints[7]) {
         // Check the x distance between right and left index fingers is less than 10
         if (Math.abs(right.keypoints[7].x - left.keypoints[7].x) <= 10) {
-          // console.log('x clear')
           // Check the y distance between right and left index fingers is less than 10
           if (Math.abs(right.keypoints[7].y - left.keypoints[7].y) <= 10) {
-            // console.log('y clear')
             if (Math.abs(right.keypoints3D[7].z - left.keypoints3D[7].z) <= 0.8) {
-              osc.frequency.value = 440
-              osc.volume.value = 90
+              // osc.volume.value = 90
+              // osc.frequency.value = 440
               console.log('Dhyana Mudra')
             }
           }
         }
-        osc.frequency.value = 30
-      } else {
-        osc.volume.value = -100
+      } else if (left || right) {
+        // check if pinky finger and index finger present
+        if ((right.keypoints[20] || left.keypoints[20]) && (right.keypoints[8] || left.keypoints[8])) {
+          // check if ring finger present
+          if (right.keypoints[13] || left.keypoints[13]) {
+            // check Shuni, Gyan Mudra, or Karana Mudra 
+            let middleFingerCounter = 0
+            for (let i = 9; i < 13; i++) {
+              // parse through entire middle finger to check if it's clearly visible
+              if (right.keypoints[i] || left.keypoints[i]) {
+                middleFingerCounter++
+              }
+              if (middleFingerCounter === 4) {
+                // now check if the index finger and thumb are touching
+                if (Math.abs(right.keypoints[4].y - right.keypoints[8].y) < 10 || Math.abs(left.keypoints[4].y - left.keypoints[8].y) < 10) {
+                  if (Math.abs(right.keypoints[4].x - right.keypoints[8].x) < 10 || Math.abs(left.keypoints[4].x - left.keypoints[8].x) < 10) {
+                    if (Math.abs(right.keypoints3D[4].z - right.keypoints3D[8].z) < 0.5 || Math.abs(left.keypoints3D[4].z - left.keypoints3D[8].z) < 0.5) {
+                      console.log('Gyan Mudra')
+                    }
+                  }
+                }
+              } else if (middleFingerCounter < 4 && middleFingerCounter > 0) {
+                // check if the middle finger and thumb are touching
+                if (Math.abs(right.keypoints[4].y - right.keypoints[12].y) < 10 || Math.abs(left.keypoints[12].y - left.keypoints[12].y) < 10) {
+                  if (Math.abs(right.keypoints[4].x - right.keypoints[12].x) < 10 || Math.abs(left.keypoints[4].x - left.keypoints[12].x) < 10) {
+                    if (Math.abs(right.keypoints3D[4].z - right.keypoints3D[12].z) < 0.5 || Math.abs(left.keypoints3D[4].z - left.keypoints3D[12].z) < 0.5) {
+                      // check if ring finger is also touching the tumb
+                      if (Math.abs(right.keypoints[4].y - right.keypoints[16].y) < 10 || Math.abs(left.keypoints[16].y - left.keypoints[16].y) < 10) {
+                        if (Math.abs(right.keypoints[4].x - right.keypoints[12].x) < 10 || Math.abs(left.keypoints[12].x - left.keypoints[12].x) < 10) {
+                          console.log('Apana Mudra')
+                        }
+                      }
+                      console.log('Shuni Mudra')
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
-    }
-    // osc.frequency.value = freq
-  } else {
+      // osc.frequency.value = freq
+    } else {
     // if we don't see poses
-    osc.volume.value = -100
+      osc.volume.value = -100
+    }
+    window.requestAnimationFrame(draw)
   }
-  window.requestAnimationFrame(draw)
 }
 
 window.addEventListener('load', setup)
