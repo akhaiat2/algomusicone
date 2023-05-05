@@ -61,7 +61,7 @@ async function draw () {
         if ((right.keypoints[20] || left.keypoints[20]) && (right.keypoints[8] || left.keypoints[8])) {
           // check if ring finger present
           if (right.keypoints[13] || left.keypoints[13]) {
-            // check Shuni, Gyan Mudra, or Karana Mudra 
+            // check Shuni, Gyan Mudra, or Karana Mudra
             let middleFingerCounter = 0
             for (let i = 9; i < 13; i++) {
               // parse through entire middle finger to check if it's clearly visible
@@ -69,6 +69,12 @@ async function draw () {
                 middleFingerCounter++
               }
               if (middleFingerCounter === 4) {
+                // Check if hand is upside down
+                if (((right.keypoints[12].y - right.keypoints[9].y) < 0) || ((left.keypoints[12].y - left.keypoints[9].y) < 0)) {
+                  if ((right.keypoints[7] && right.keypoints[15] && right.keypoints[3] && right.keypoints[19]) || (left.keypoints[7] && left.keypoints[15] && left.keypoints[3] && left.keypoints[19])) {
+                    console.log('Varada Mudra')
+                  }
+                }
                 // now check if the index finger and thumb are touching
                 if (Math.abs(right.keypoints[4].y - right.keypoints[8].y) < 10 || Math.abs(left.keypoints[4].y - left.keypoints[8].y) < 10) {
                   if (Math.abs(right.keypoints[4].x - right.keypoints[8].x) < 10 || Math.abs(left.keypoints[4].x - left.keypoints[8].x) < 10) {
