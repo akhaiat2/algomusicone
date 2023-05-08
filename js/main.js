@@ -47,7 +47,7 @@ async function draw () {
     if (left && right) {
       // if left and right hand detected
       if (right.keypoints[0] && left.keypoints[0]) {
-        console.log('wrists detected')
+        // console.log('wrists detected')
         if (right.keypoints[5] && right.keypoints[9] && right.keypoints[13] && right.keypoints[17]) {
           if (!right.keypoints[8] && !right.keypoints[12] && !right.keypoints[16] && !right.keypoints[20]) {
             if (Math.abs(right.keypoints[0].x - left.keypoints[0].x) < 350) {
@@ -65,7 +65,15 @@ async function draw () {
             }
           }
         }
-        if (right.keypoints[])
+        if (Math.abs(right.keypoints[4].x - left.keypoints[4].x) < 20) {
+          if (Math.abs(right.keypoints[4].y - left.keypoints[4].y) < 20) {
+            if ((Math.abs(right.keypoints[8].x - left.keypoints[1].x < 60)) || (Math.abs(left.keypoints[8].x - right.keypoints[1].x < 60))) {
+              if ((Math.abs(right.keypoints[8].y - left.keypoints[1].y < 60)) || (Math.abs(left.keypoints[8].y - right.keypoints[1].y < 60))) {
+                console.log('Dhyan Mudra')
+              }
+            }
+          }
+        }
       }
     } else if (right) {
       // if right hand detected
