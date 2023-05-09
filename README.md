@@ -1,3 +1,3 @@
-## Algorithmic Music --> MLeditation
+## Algorithmic Music #1 --> MLeditation
 I am using Tenserflow to detect hands and Indian mudras to create an interactive instrument which uses your web camera to detect meditation techniques and produce a frequency according to the meditation. This instrument is not only supposed to reaffirm meditation techniques but also accompany the user with sounds which will enhance their meditation experience. 
 The following mudras which can be detected are Apana, Dhyan, Gyan, Shuni, and Varada. The accompanied sound are frequencies related to each mudra which I found here: https://mindisthemaster.com/meditation-frequency-music/. I also found a list of mudras which I used for the basis of my project here: https://www.fitsri.com/articles/yoga-hand-mudras-for-meditation#bhairava-mudra. 
