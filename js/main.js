@@ -49,6 +49,7 @@ async function draw () {
           if (!right.keypoints[8] && !right.keypoints[12] && !right.keypoints[16] && !right.keypoints[20]) {
             if (Math.abs(right.keypoints[0].x - left.keypoints[0].x) < 350) {
               if (Math.abs(right.keypoints[0].y - left.keypoints[0].y) < 30) {
+                console.log('Ganesha Mudra')
               }
             }
           }
@@ -225,5 +226,10 @@ async function draw () {
   }
   window.requestAnimationFrame(draw)
 }
-
-window.addEventListener('load', setup)
+const curtain = document.querySelector('.curtain')
+const button = document.querySelector('.enter')
+button.addEventListener('click', () => {
+  curtain.style.display = 'none'
+  setup()
+})
+// window.addEventListener('load', setup)
