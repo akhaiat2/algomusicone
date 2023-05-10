@@ -27,9 +27,9 @@ async function setupModel () {
 }
 
 async function setup () {
-  osc = new Tone.Oscillator().toDestination().start()
-  osc.volume.value = 50
-  osc.frequency.value = 440
+  osc = new Tone.Synth().toDestination()
+  osc.oscillator.type = 'sine'
+  osc.triggerAttackRelease('550', '4n')
   video = await addVideo()
   detector = await setupModel()
   console.log('detector ready', detector)
@@ -43,7 +43,7 @@ async function draw () {
     const left = poses[1]
     const right = poses[0]
     if (left && right) {
-      // if left and right hand detected
+      // if left and right hand detected (Ganesha Mudra doesn't really work well)
       if (right.keypoints[0] && left.keypoints[0]) {
         if (right.keypoints[5] && right.keypoints[9] && right.keypoints[13] && right.keypoints[17]) {
           if (!right.keypoints[8] && !right.keypoints[12] && !right.keypoints[16] && !right.keypoints[20]) {
@@ -67,7 +67,7 @@ async function draw () {
             if ((Math.abs(right.keypoints[8].x - left.keypoints[1].x < 60)) || (Math.abs(left.keypoints[8].x - right.keypoints[1].x < 60))) {
               if ((Math.abs(right.keypoints[8].y - left.keypoints[1].y < 60)) || (Math.abs(left.keypoints[8].y - right.keypoints[1].y < 60))) {
                 console.log('Dhyan Mudra')
-                osc.frequency.value = 963
+                osc.triggerAttackRelease('963', '4n')
               }
             }
           }
@@ -107,7 +107,7 @@ async function draw () {
               // check if y position is okay
               if (right.keypoints[11].y - right.keypoints[12].y < -20) {
                 console.log('Varada Mudra')
-                osc.frequency.value = 432
+                osc.triggerAttackRelease('432', '4n')
               }
             }
           }
@@ -122,7 +122,7 @@ async function draw () {
                 if (Math.abs(right.keypoints[12].y - right.keypoints[4].y) > 20 && Math.abs(right.keypoints[16].y - right.keypoints[4].y) > 20 && Math.abs(right.keypoints[20].y - right.keypoints[4].y) > 20) {
                   if (right.keypoints[12].y < right.keypoints[11].y && right.keypoints[16].y < right.keypoints[15].y && right.keypoints[20].y < right.keypoints[19].y) {
                     console.log('Gyan Mudra')
-                    osc.frequency.value = 639
+                    osc.triggerAttackRelease('639', '4n')
                   }
                 }
               }
@@ -136,14 +136,14 @@ async function draw () {
             if (Math.abs(right.keypoints[16].y - right.keypoints[4].y) < 25 && Math.abs(right.keypoints[12].y - right.keypoints[4].y) < 25) {
               if (Math.abs(right.keypoints[16].x - right.keypoints[4].x) < 25 && Math.abs(right.keypoints[12].x - right.keypoints[4].x) < 25) {
                 console.log('Apana Mudra')
-                osc.frequency.value = 528
+                osc.triggerAttackRelease('528', '4n')
               }
             }
           } else if (right.keypoints[16].y < right.keypoints[15].y) {
             if (Math.abs(right.keypoints[12].y - right.keypoints[4].y) < 25) {
               if (Math.abs(right.keypoints[12].x - right.keypoints[4].x) < 25) {
                 console.log('Shuni Mudra')
-                osc.frequency.value = 852
+                osc.triggerAttackRelease('852', '4n')
               }
             }
           }
@@ -183,7 +183,7 @@ async function draw () {
               // check if y position is okay
               if (left.keypoints[11].y - left.keypoints[12].y < -20) {
                 console.log('Varada Mudra')
-                osc.frequency.value = 432
+                osc.triggerAttackRelease('432', '4n')
               }
             }
           }
@@ -198,7 +198,7 @@ async function draw () {
                 if (Math.abs(left.keypoints[12].y - left.keypoints[4].y) > 20 && Math.abs(left.keypoints[16].y - left.keypoints[4].y) > 20 && Math.abs(left.keypoints[20].y - left.keypoints[4].y) > 20) {
                   if (left.keypoints[12].y < left.keypoints[11].y && left.keypoints[16].y < left.keypoints[15].y && left.keypoints[20].y < left.keypoints[19].y) {
                     console.log('Gyan Mudra')
-                    osc.frequency.value = 639
+                    osc.triggerAttackRelease('639', '4n')
                   }
                 }
               }
@@ -212,14 +212,14 @@ async function draw () {
             if (Math.abs(left.keypoints[16].y - left.keypoints[4].y) < 25 && Math.abs(left.keypoints[12].y - left.keypoints[4].y) < 25) {
               if (Math.abs(left.keypoints[16].x - left.keypoints[4].x) < 25 && Math.abs(left.keypoints[12].x - left.keypoints[4].x) < 25) {
                 console.log('Apana Mudra')
-                osc.frequency.value = 528
+                osc.triggerAttackRelease('528', '4n')
               }
             }
           } else if (left.keypoints[16].y < left.keypoints[15].y) {
             if (Math.abs(left.keypoints[12].y - left.keypoints[4].y) < 25) {
               if (Math.abs(left.keypoints[12].x - left.keypoints[4].x) < 25) {
                 console.log('Shuni Mudra')
-                osc.frequency.value = 852
+                osc.triggerAttackRelease('852', '4n')
               }
             }
           }
